@@ -14,7 +14,7 @@ create table articulo(
     foreign key(idCategoria) references Categoria(idCategoria) on delete cascade
 );
 
-/*Artic*/
+
 delimiter **
 create procedure spInsertar(nom varchar(50), descrip varchar(150))
 begin
