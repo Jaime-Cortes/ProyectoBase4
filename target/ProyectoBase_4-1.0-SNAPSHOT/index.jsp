@@ -28,13 +28,15 @@
                             </li>
                             <li class="nav-item">
                                 <a class="nav-link" href="CategoriaServlet?accion=listaDeCategorias">Listado de Categorías</a>
-                            </li>
-                           
-                            
+                            </li>       
                         </ul>
                     </div>
                 </div>
             </nav>
         </div>
+        <div class="container text-center mt-5">
+            <h3>Práctica para realizar altas, bajas, cambios y consultas, además de visualizar reportes.</h3>
+        </div>
+        
     </body>
 </html>
