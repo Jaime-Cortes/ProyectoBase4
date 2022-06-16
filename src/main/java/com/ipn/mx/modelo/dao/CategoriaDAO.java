@@ -31,7 +31,7 @@ public class CategoriaDAO {
      public Connection obtenerConexion() {
         //obtener conexion
         String usuario = "root";
-        String clave = "n0m3l0";
+        String clave = "SMCSDM:1";
         String url = "jdbc:mysql://localhost:3306/ProyectoBase4?serverTimezone=America/Mexico_City&allowPublicKeyRetrieval=true&useUnicode=true&useJDBCCompliantTimezoneShift=true&useLegacyDatetimeCode=false&useSSL=false";
         //String url = "jdbc:mysql://localhost:3306/EscuelaWeb?
         //serverTimeZone=America/Mexico_City&allowPublicKeyRetrieval=true&
