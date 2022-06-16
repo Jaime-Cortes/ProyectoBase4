@@ -6,7 +6,7 @@ create table categoria(
 );
 
 create table articulo(
-	idArticulo int primary key, 
+	idArticulo int primary key auto_increment, 
     nombre varchar(50), 
     cantidad int,
     precio float, 
@@ -14,7 +14,7 @@ create table articulo(
     foreign key(idCategoria) references Categoria(idCategoria) on delete cascade
 );
 
-/*Artic*/
+/*Categoria PA*/
 delimiter **
 create procedure spInsertar(nom varchar(50), descrip varchar(150))
 begin
@@ -47,6 +47,43 @@ delimiter **
 create procedure spSeleccionarTodo()
 begin 
 	select * from categoria;
+end **
+delimiter ;
+/**/
+
+/*Articulo PA*/
+delimiter **
+create procedure spInsertarA(nombre varchar(50), cantidad int, precio float, idCategoria int)
+begin
+	insert into articulo(nombre, cantidad, precio, idCategoria) values(nombre, cantidad, precio, idCategoria);
+end **
+delimiter ;
+
+delimiter **
+create procedure spActualizarA(id int, nombre varchar(50), cantidad int, precio float, idCategoria int)
+begin
+	update articulo set nombre=nombre, cantidad=cantidad, precio=precio, idCategoria=idCategoria where idArticulo=id;
+end **
+delimiter ;
+
+delimiter **
+create procedure spEliminarA(id int)
+begin 
+	delete from articulo where idArticulo = id;
+end **
+delimiter ;
+
+delimiter **
+create procedure spSeleccionarUnoA(id int)
+begin
+	select * from articulo where idArticulo  = id;
+end **
+delimiter ; 
+
+delimiter **
+create procedure spSeleccionarTodoA()
+begin 
+	select * from articulo;
 end **
 delimiter ;
 
