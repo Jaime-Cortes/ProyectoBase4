@@ -223,7 +223,7 @@ public class CategoriaServlet extends HttpServlet {
        ServletOutputStream sos = null;
        try{
             sos = response.getOutputStream(); 
-            File reporte = new File(getServletConfig().getServletContext().getRealPath("/reportes/Reportes.jasper"));   
+            File reporte = new File(getServletConfig().getServletContext().getRealPath("/reportes/ProyectoBase4.jasper"));   
             byte[] b = JasperRunManager.runReportToPdf(reporte.getPath(), null, dao.obtenerConexion()); 
             response.setContentType("application/pdf");
             response.setContentLength(b.length);

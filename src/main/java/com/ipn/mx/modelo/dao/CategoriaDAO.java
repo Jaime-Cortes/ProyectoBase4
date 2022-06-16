@@ -8,6 +8,7 @@ import com.ipn.mx.modelo.dto.CategoriaDTO;
 import java.sql.CallableStatement;
 import java.sql.Connection;
 import java.sql.DriverManager;
+import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.ArrayList;
@@ -20,24 +21,24 @@ import java.util.logging.Logger;
  * @author darkdestiny
  */
 public class CategoriaDAO {
-    private static final String SQL_INSERT="{call spInsertar( ?, ?)}";
-    private static final String SQL_UPDATE="{call spActualizar (?, ? ,?)}";
-    private static final String SQL_DELETE="{call spEliminar(?)}";
-    private static final String SQL_READ="{call spSeleccionarUno(?)}";
-    private static final String SQL_READ_ALL="{call spSeleccionarTodo()}";
+    private static final String SQL_INSERT="CALL spInsertar(?, ?);";
+    private static final String SQL_UPDATE="CALL spActualizar (?, ? ,?);";
+    private static final String SQL_DELETE="CALL spEliminar(?);";
+    private static final String SQL_READ="select * from categoria where idCategoria = ?;";
+    private static final String SQL_READ_ALL="select * from categoria;";
  
     private Connection conexion;
     
      public Connection obtenerConexion() {
         //obtener conexion
-        String usuario = "root";
-        String clave = "n0m3l0";
-        String url = "jdbc:mysql://localhost:3306/ProyectoBase4?serverTimezone=America/Mexico_City&allowPublicKeyRetrieval=true&useUnicode=true&useJDBCCompliantTimezoneShift=true&useLegacyDatetimeCode=false&useSSL=false";
+        String usuario = "nqbwexzkhkyokp";
+        String clave = "44e6c9fed0157519e329b0f2449647e087be9004d2fdcdc99a185d390cebe97a";
+        String url = "jdbc:postgresql://ec2-34-225-159-178.compute-1.amazonaws.com:5432/dcllhv8me3p40t";
         //String url = "jdbc:mysql://localhost:3306/EscuelaWeb?
         //serverTimeZone=America/Mexico_City&allowPublicKeyRetrieval=true&
         //useSSL=false";
 
-        String driverBD = "com.mysql.cj.jdbc.Driver";
+        String driverBD = "org.postgresql.Driver";
 
         try {
             Class.forName(driverBD);
@@ -90,12 +91,12 @@ public class CategoriaDAO {
    }
    public CategoriaDTO read(CategoriaDTO dto) throws SQLException{
        obtenerConexion();
-       CallableStatement cs = null;
+       PreparedStatement ps = null;
        ResultSet rs = null;
        try{
-           cs = conexion.prepareCall(SQL_READ);
-           cs.setInt(1, dto.getEntidad().getIdCategoria());
-           rs = cs.executeQuery();
+           ps = conexion.prepareStatement(SQL_READ);
+           ps.setInt(1, dto.getEntidad().getIdCategoria());
+           rs = ps.executeQuery();
            List resultados = obtenerResultados(rs);
            if (resultados.size() > 0){
                return (CategoriaDTO) resultados.get(0);
@@ -103,17 +104,18 @@ public class CategoriaDAO {
                return null;
            }
        }finally{
-           if (cs != null) cs.close();
+           if (ps != null) ps.close();
            if (conexion != null) conexion.close();
        }
    }
+   
    public List readAll() throws SQLException{
        obtenerConexion();
-       CallableStatement cs = null;
+       PreparedStatement ps = null;
        ResultSet rs = null;
        try{
-           cs = conexion.prepareCall(SQL_READ_ALL);
-           rs = cs.executeQuery();
+           ps = conexion.prepareStatement(SQL_READ_ALL);
+           rs = ps.executeQuery();
            List resultados = obtenerResultados(rs);
            if (resultados.size() > 0){
                return  resultados;
@@ -121,7 +123,7 @@ public class CategoriaDAO {
                return null;
            }
        }finally{
-           if (cs != null) cs.close();
+           if (ps != null) ps.close();
            if (conexion != null) conexion.close();
        }
    }
@@ -142,17 +144,11 @@ public class CategoriaDAO {
     public static void main(String[] args) {
         CategoriaDAO dao = new CategoriaDAO();
         CategoriaDTO dto = new CategoriaDTO();
-        //dto.getEntidad().setNombreCategoria("Línea Blanca");
-        //dto.getEntidad().setDescripcionCategoria("Artículos de Línea Blanca");
-        dto.getEntidad().setIdCategoria(3);
-        try {
-            //dao.create(dto);
-            //dao.update(dto);
+        try{
             System.out.println(dao.readAll());
-            //System.out.println(dao.read(dto));
-            //dao.delete(dto);
-        } catch (SQLException ex) {
-            Logger.getLogger(CategoriaDAO.class.getName()).log(Level.SEVERE, null, ex);
+        }catch(Exception e){
+            e.printStackTrace();
         }
+        
     }
 }
